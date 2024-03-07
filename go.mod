@@ -1,4 +1,4 @@
-module github.com/SigNoz/sample-otelpgx-app
+module github.com/SigNoz/sample-golang-pgx-app
 
 go 1.22
 
