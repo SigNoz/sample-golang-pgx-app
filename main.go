@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
@@ -16,29 +15,18 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	"google.golang.org/grpc/credentials"
 )
 
 var (
 	serviceName  = os.Getenv("SERVICE_NAME")
 	collectorURL = os.Getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
-	insecure     = os.Getenv("INSECURE_MODE")
 )
 
 func initTracer() func(context.Context) error {
 
-	var secureOption otlptracegrpc.Option
-
-	if strings.ToLower(insecure) == "false" || insecure == "0" || strings.ToLower(insecure) == "f" {
-		secureOption = otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, ""))
-	} else {
-		secureOption = otlptracegrpc.WithInsecure()
-	}
-
 	exporter, err := otlptrace.New(
 		context.Background(),
 		otlptracegrpc.NewClient(
-			secureOption,
 			otlptracegrpc.WithEndpoint(collectorURL),
 		),
 	)
