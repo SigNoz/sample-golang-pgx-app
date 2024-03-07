@@ -3,13 +3,13 @@
 ```
 go mod tidy
 ```
-to download the required packages and populate the go.sum file. 
+to download the required packages and populate the go.sum file.
 
 Set up database and table using the following commands:
 
 ```bash
 psql -U postgres -h localhost -d postgres -c "CREATE DATABASE tododb"
-psql -U postgres -h localhost -d todoapp -f ./db.sql
+psql -U postgres -h localhost -d tododb -f ./db.sql
 ```
 
 Set the environment variables:
@@ -18,9 +18,9 @@ Set the environment variables:
 export DATABASE_URL="postgres://user:password@localhost:5432/tododb"
 ```
 
-## To run and configure app to send data to SigNoz:
+## To run and configure app to send data to SigNoz
 
-For SigNoz Cloud:
+### For SigNoz Cloud
 
 ```bash
 SERVICE_NAME=gopgxApp INSECURE_MODE=false OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=<SIGNOZ-INGESTION-TOKEN> OTEL_EXPORTER_OTLP_ENDPOINT=ingest.{region}.signoz.cloud:443 go run .
@@ -35,7 +35,7 @@ SERVICE_NAME=gopgxApp INSECURE_MODE=false OTEL_EXPORTER_OTLP_HEADERS=signoz-acce
 | IN     | ingest.in.signoz.cloud:443 |
 | EU     | ingest.eu.signoz.cloud:443 |
 
-For SigNoz OSS:
+### For SigNoz OSS
 
 ``` bash
 SERVICE_NAME=gopgxApp INSECURE_MODE=true OTEL_EXPORTER_OTLP_ENDPOINT=<IP of SigNoz backend>:4317 go run .
